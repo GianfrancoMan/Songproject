@@ -29,6 +29,16 @@
                             <li class="list-group-item">Data di uscita: <span>{{$songs[$i]->release}}</span></li>
                         </ul>
                     </div>
+                    <div class="frm-cnt dv-frm">
+                        <ul class="list-group">
+                            <li class="list-group-item"><a href="{{route('updatesong', $songs[$i]->id)}}" class="btn btn-secondary">update</a></li>
+                        </ul>
+                    </div>
+                    <div class="frm-cnt dv-frm">
+                        <ul class="list-group">
+                            <li class="list-group-item"><a href="{{route('deletesong', $songs[$i]->id)}}" class="btn btn-secondary">delete</a></li>
+                        </ul>
+                    </div>
                 </div>
             @endfor
             @else

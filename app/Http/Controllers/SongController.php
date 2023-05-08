@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Singer;
 use App\Models\SingerSong;
 use App\Models\Song;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class SongController extends Controller
 {
@@ -75,15 +78,33 @@ class SongController extends Controller
         //
     }
 
-    /**
+    /*
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Song  $song
-     * @return \Illuminate\Http\Response
      */
-    public function edit(Song $song)
-    {
-        //
+    public function edit(int $id) {
+
+        $song = new Song();
+        $song = $song->find($id);
+        $singer = new Singer();
+        $singers = $singer->all();
+        $relatedSingers = $song->singers()->get();
+        $indexes = [];
+
+        for($i=0; $i < count($singers); $i ++) {
+            for($y=0; $y<count($relatedSingers); $y++) {
+                if($singers[$i]->id === $relatedSingers[$y]->id ) {
+                    $indexes[] = $singers[$i]->id;
+                }
+            }
+        }
+        //dd($indexes);
+        for($i = 0; $i < count($indexes); $i ++) {
+         $singers = $singers->where('id', '!==', $indexes[$i]);
+        }
+        //dd($filteredCollection);
+
+        return view('update-song-view', ['song' => $song, 'singers' => $singers]);
     }
 
     /**
@@ -98,6 +119,34 @@ class SongController extends Controller
         //
     }
 
+    public function storeupdate(int $id, Request $request) {
+        $validatedData = $request->validate([
+            'title' => 'required|max:100',
+            'release_date' => 'required',
+          ]);
+
+        $song =new Song();
+        $song = $song->find($id);
+        $song->title = $request->title;
+        $song->release = $request->release_date;
+        $result = $song->save();
+        $result = true;
+
+        $singers_id = $request->singer ?? null;
+        if($singers_id != null && count($singers_id) > 0) {
+
+            $singer_song = new SingerSong();
+            $singer_song->song_id = $id;
+            $singer_song->singer_id = $singers_id[0];
+            $singer_song->save();
+        }
+
+        $message = $result == true ? 'L\'operazione è andata a buon fine' : 'L\'operazione non è andata a buon fine: SELEZIONA ALMENO UN CANTANTE';
+
+        return view('view-result')->with('message', $message);
+
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -107,6 +156,19 @@ class SongController extends Controller
     public function destroy(Song $song)
     {
         //
+    }
+
+    /*
+    * Delete song by id
+    */
+    public function delete(int $id) {
+        $song = new Song();
+        $song = $song->find($id);
+        $result = $song->delete();
+
+        $message = $result == true ? 'L\'operazione è andata a buon fine' : 'L\'operazione non è andata a buon fine';
+
+        return view('view-result')->with('message', $message);
     }
 
 }

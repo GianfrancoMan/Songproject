@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SingerController;
+use App\Http\Controllers\SongController;
 use App\Models\Singer;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
 
     Route::get('/song', 'SongController@create')->name('song');
     Route::post('/newsong', 'SongController@store')->name('newsong');
+    Route::get('updatesong/{id}', 'SongController@edit')->name('updatesong');
+    Route::post('/storeupdate/{id}', 'SongController@storeUpdate')->name('storeupdate');
+    Route::get('/deletesong/{id}', 'SongController@delete')->name('deletesong');
 
     Route::get('/viewsingerdata', 'SingerController@displayViewSingerData')->name('viewsingerdata');
     Route::get('/showsingersongs/{id}', 'SingerController@showSingerSongs')->name('showsingersongs');
