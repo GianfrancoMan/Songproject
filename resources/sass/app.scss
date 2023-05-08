@@ -18,6 +18,7 @@ body {
             margin-right: 3em;
             background-image: linear-gradient(#e66465, #9198e5);
         }
+
     }
 }
 
@@ -64,7 +65,7 @@ main {
         }
 
         .wht {
-            height: 200px;
+            height: 300px;
             overflow: auto;
             background-color: white;
             border-style: solid;
@@ -83,5 +84,12 @@ main {
         margin: auto;
         text-align: center;
     }
+
+    .singer-lst {
+        background-image: none;
+        background-color: white;
+        text-decoration: none;
+    }
+
 }
 
