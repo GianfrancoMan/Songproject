@@ -130,7 +130,6 @@ class SongController extends Controller
         $song->title = $request->title;
         $song->release = $request->release_date;
         $result = $song->save();
-        $result = true;
 
         $singers_id = $request->singer ?? null;
         if($singers_id != null && count($singers_id) > 0) {
@@ -141,7 +140,7 @@ class SongController extends Controller
             $singer_song->save();
         }
 
-        $message = $result == true ? 'L\'operazione è andata a buon fine' : 'L\'operazione non è andata a buon fine: SELEZIONA ALMENO UN CANTANTE';
+        $message = $result == true ? 'L\'operazione è andata a buon fine' : 'L\'operazione non è andata a buon fine';
 
         return view('view-result')->with('message', $message);
 

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="dv-cnt">
-        <form class="frm-cnt" method="post" action="{{route('storeupdate', $song->id) }}"</form>>
+        <form class="frm-cnt" method="post" action="{{route('storeupdate', $song->id) }}">
             @csrf
             <div class="form-group dv-frm">
             <label for="title">Titolo</label>
