@@ -36,13 +36,19 @@ class SingerController extends Controller
      */
     public function store(Request $request)
     {
+        $validate = $request->validate([
+            'name' => 'required|max:100',
+            'birthdate' => 'required',
+            'gender' => 'required'
+        ]);
+
         $newSinger = new Singer();
         $newSinger->name = $request->name;
         $newSinger->birthdate = $request->birthdate;
         $newSinger->gender = $request->gender;
         $result = $newSinger->save();
 
-        $message = $result === true ? 'Operazione eseguita con sucesso' : 'L\'operazione non è andata a buon fine';
+        $message = $result === true ? __("L'operazione è andata a buon fine") : __("L'operazione non è andata a buon fine");
 
         return view('view-result')->with('message', $message);
     }

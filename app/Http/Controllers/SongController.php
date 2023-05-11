@@ -42,8 +42,8 @@ class SongController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|max:100',
             'release_date' => 'required',
+            'singer' => 'required',
           ]);
-
         $singers_id = $request->singer;
         if($countSingers = $singers_id != null && count($singers_id) > 0) {
             $song= [];
@@ -62,7 +62,7 @@ class SongController extends Controller
             }
         }
 
-        $message = $countSingers == true ? 'L\'operazione è andata a buon fine' : 'L\'operazione non è andata a buon fine: SELEZIONA ALMENO UN CANTANTE';
+        $message = $countSingers == true ? __("L'operazione è andata a buon fine") : __("L'operazione non è andata a buon fine") . __(": SELEZIONA ALMENO UN CANTANTE");
 
         return view('view-result')->with('message', $message);
     }
@@ -134,13 +134,16 @@ class SongController extends Controller
         $singers_id = $request->singer ?? null;
         if($singers_id != null && count($singers_id) > 0) {
 
-            $singer_song = new SingerSong();
-            $singer_song->song_id = $id;
-            $singer_song->singer_id = $singers_id[0];
-            $singer_song->save();
+            $singer_song = [];
+
+            $singer_song['song_id'] = $song->id;
+            for($i=0; $i < count($singers_id); $i ++) {
+                $singer_song['singer_id'] = $singers_id[$i];
+                $result = SingerSong::create($singer_song);
+            }
         }
 
-        $message = $result == true ? 'L\'operazione è andata a buon fine' : 'L\'operazione non è andata a buon fine';
+        $message = $result == true ?  __("L'operazione è andata a buon fine") :  __("L'operazione non è andata a buon fine") ;
 
         return view('view-result')->with('message', $message);
 
@@ -165,7 +168,7 @@ class SongController extends Controller
         $song = $song->find($id);
         $result = $song->delete();
 
-        $message = $result == true ? 'L\'operazione è andata a buon fine' : 'L\'operazione non è andata a buon fine';
+        $message = $result == true ?  __("L'operazione è andata a buon fine") : __("L'operazione non è andata a buon fine");
 
         return view('view-result')->with('message', $message);
     }
