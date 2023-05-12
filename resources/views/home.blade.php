@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
     <head>
+        <title>Singers & Songs</title>
         <!-- Styles and Scripts -->
         @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     </head>

@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SingerController;
 use App\Http\Controllers\SongController;
 use App\Models\Singer;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,12 +18,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
 
-    return view('home');
-});
+Route::group(['namespace' => 'App\Http\Controllers'], function() {
 
-Route::group(['namespace' => 'App\Http\Controllers'], function(){
+
+    Route::get('/', 'HomeController@home')->name('home');
 
     Route::get('/singer', 'SingerController@create')->name('singer');
     Route::post('/newsinger', 'SingerController@store')->name('newsinger');
