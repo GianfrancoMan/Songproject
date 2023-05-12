@@ -24,10 +24,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $locale = substr( $_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) ?? '';
-
-        if(in_array($locale, config('app.available_locals'))) {
-            App::setLocale($locale);
+        //set Language for the App
+        $locale = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? null;
+        if($locale !== null) {
+            $locale = substr($locale, 0 ,2);
+            if(in_array($locale, config('app.available_locals'))) {
+                App::setLocale($locale);
+            }
         }
     }
 }

@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function() {
     // Home Page
     return view('home');
+    
 })->name('home');
 
 Route::group(['namespace' => 'App\Http\Controllers'], function(){
