@@ -25,7 +25,10 @@ class SingerController extends Controller
     public function create()
     {
         $result=false;
-        return view('singer', compact('result'));
+        $action = 'newsinger';
+        $name = '';
+        $birthdate = '';
+        return view('singer', compact('result', 'action', 'name', 'birthdate'));
     }
 
     /**

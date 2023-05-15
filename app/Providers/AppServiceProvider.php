@@ -24,7 +24,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //set Language for the App
+        /*
+        |*
+        | Set the Language in the App based on 'Accept Language' Header
+        | if value matches one of the AvailableLanguages in the App,
+        | Otherwise the default language(en) is used.
+        |*
+        */
         $locale = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? null;
         if($locale !== null) {
             $locale = substr($locale, 0 ,2);
